@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block content %}
+<div class="page-content">
+  <div class="account">
+    <h1>Account</h1>
+    <p><strong>Current User：</strong> {{ username }}</p>
+
+    <!-- Reset password -->
+    <form
+      id="form1"
+      action="/account"
+      method="post"
+      onsubmit="return validateForm()"
+    >
+      <label for="reset-password"><strong>New Password:</strong> </label>
+      <input type="password" name="password" id="reset-password" />
+      <button type="submit">Reset</button>
+    </form>
+  </div>
+
+  <!-- check if the user enter a new password-->
+  <script>
+    function validateForm() {
+      var newPassword = document.getElementById("reset-password").value;
+      if (newPassword === "") {
+        alert("Please enter a new password.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+
+  {% if warning %}
+  <div class="alert alert-warning">{{ warning }}</div>
+  {% endif %}
+</div>
+{% endblock %}

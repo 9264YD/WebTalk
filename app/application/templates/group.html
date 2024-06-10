@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="chatbox">
+        {% for message in messages %}
+        <p class="ai-message"> {{ message[0] }}</p>
+{#        <p class="user-message"> {{ message[2] }}</p>#}
+        {% endfor %}
+    </div>
+
+    <div id="input-container">
+      <form id="my-form" onsubmit="return false"  method="post">
+        <input id="input-box" type="text" name="username" placeholder="Enter your message" onkeydown="if(event.key === 'Enter'){sendButton.click();}" autocomplete="off" autofocus>
+        <button id="send-button" type="button"  onclick="pushcontent()">Submit</button>
+      </form>
+    </div>
+
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script>
+  const chatbox = document.querySelector('#chatbox');
+  const inputBox = document.querySelector('#input-box');
+  const sendButton = document.querySelector('#send-button');
+    function pushcontent() {
+        $.ajax({
+            url: "/meet",
+            type: "POST",
+            data: $("#my-form").serialize(),
+            success: function (response) {
+                message = response.result
+                const input = inputBox.value;
+                  if (!input.trim()) return;
+                  inputBox.value = '';
+                  {#chatbox.innerHTML += `<p class="user-message">${input}</p>`;#}
+                  chatbox.innerHTML += `<p class="ai-message">${message}</p>`;
+
+                  chatbox.scrollTop = chatbox.scrollHeight;
+                console.log(response);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+
+{% endblock %}

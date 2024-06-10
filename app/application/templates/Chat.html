@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+    <script src="{{ url_for('static', filename='js/time.js') }}"></script>
+  <div class="current-time">
+    <p>Current time and Date: <span id="date"></span> <span id="time"></span></p>
+  </div>
+    <div id="chatbox">
+    {% for message in messages %}
+        <p class="user-message"> {{ message[1] }}</p>
+        <p class="ai-message"> {{ message[2] }}</p>
+    {% endfor %}
+    </div>
+    <div id="input-container">
+      <form id="my-form" onsubmit="return false"  method="post">
+        <input id="input-box" type="text" name="username" placeholder="Enter your message" onkeydown="if(event.key === 'Enter'){sendButton.click();}" autocomplete="off" autofocus>
+        <button id="send-button" type="button"  onclick="pushcontent()">Submit</button>
+      </form>
+    </div>
+<script>
+
+  function getCurrentDate() {
+    var dateElement = document.getElementById('date');
+    var currentDate = new Date();
+    var dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    var formattedDate = currentDate.toLocaleDateString(undefined, dateOptions);
+    dateElement.textContent = formattedDate;
+  }
+
+  getCurrentDate();
+</script>
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/style.js') }}"></script>
+    <script>
+    const chatbox = document.querySelector('#chatbox');
+    const inputBox = document.querySelector('#input-box');
+    const sendButton = document.querySelector('#send-button');
+      function pushcontent() {
+          $.ajax({
+              url: "/result",
+              type: "POST",
+              data: $("#my-form").serialize(),
+              success: function (response) {
+                  message = response.result
+                  const input = inputBox.value;
+                    if (!input.trim()) return;
+                    inputBox.value = '';
+                    chatbox.innerHTML += `<p class="user-message">${input}</p>`;
+                    chatbox.innerHTML += `<p class="ai-message">${message}</p>`;
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                  console.log(response);
+              },
+              error: function (error) {
+                  console.log(error);
+              }
+          });
+      }
+</script>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Webtalk</title>
+    <link
+      rel="shortcut icon"
+      href="{{url_for('static',filename='image/groupchat.png')}}"
+      type="image/x-icon"
+    />
+    {#
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    #} {#
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+      integrity="sha256-ae576713bc196098f7438dede6ff1f835a23291c32b745ad7e6fb6db809a719b"
+      crossorigin="anonymous"
+    />
+    #}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+    />
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="header">
+      <div class="col-3 appinfo d-flex">
+        <div class="applogo px-2">
+          <img
+            class="rounded-circle"
+            src="{{url_for('static',filename='image/groupchat.png')}}"
+            height="30"
+            width="30"
+            alt="Group Chat"
+          />
+        </div>
+        <div class="appname text-white px-2">Webtalk</div>
+      </div>
+
+      <!-- Link to other pages-->
+      <ul class="nav">
+        {% if 'username' in session %}
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('chat') }}">Chat</a></li>
+        <li><a href="{{ url_for('help') }}">Help</a></li>
+        <li><a href="{{ url_for('group') }}">Group</a></li>
+        <li><a href="{{ url_for('search') }}">Search</a></li>
+        <li><a href="{{ url_for('account') }}">Account</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        <li>
+          <a href="{{ url_for('account') }}">
+            <span class="user-details">
+              <img
+                src="/static/image/user.png"
+                alt="User Avatar"
+                class="user-avatar"
+              />
+              <span class="username">
+                <strong>{{ session['username'] }}</strong>
+              </span>
+            </span>
+          </a>
+        </li>
+        {% else %}
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('register') }}">Register</a></li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="content">{% block content %} {% endblock %}</div>
+    
+    <footer>
+      <div class="container text-center">
+        <p>Author Name: Yolanda Yang</p>
+        <p>
+          Contact Me:
+          <a
+            href="mailto:yolanda9264d@hotmail.com"
+          >
+            Yolanda Yang</a
+          >
+        </p>
+      </div>
+    </footer>
+
+    <script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+    {#
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    #}
+  </body>
+</html>

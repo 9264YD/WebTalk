@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <table>
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Answer</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for message in messages %}
+            <tr>
+              <td>{{ message[0] }}</td>
+              <td>{{ message[1] }}</td>
+              <td>
+                <button id="reply-btn-{{ loop.index }}" class="btn btn-primary">Reply</button>
+
+                <div id="reply-form-{{ loop.index }}" style="display:none;">
+                  <form action="{{ url_for('submit_answer') }}" method="POST">
+                      <input type="hidden" name="question" value="{{ message[0] }}">
+                    <input type="text" name="answer" placeholder="Enter your answer" class="form-control">
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                  </form>
+                </div>
+              </td>
+            </tr>
+              <script>
+                document.getElementById('reply-btn-{{ loop.index }}').addEventListener('click', function() {
+                  var replyForm = document.getElementById('reply-form-{{ loop.index }}');
+                  if (replyForm.style.display === 'none') {
+                    replyForm.style.display = 'block';
+                  } else {
+                    replyForm.style.display = 'none';
+                  }
+                });
+              </script>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}
