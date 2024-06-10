@@ -2,5 +2,5 @@ WebTalk is a platform for beginner and experienced web developer to ask web-rela
 
 This platform uses Flask + SQLite + SQL Alchemy framework for web app and back end settings.
 
-## Technologies Used:
+# Technologies Used:
 HTML, CSS, JavaScript, Boostrap, Socket-IO, Python, Flask
